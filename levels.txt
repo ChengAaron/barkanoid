@@ -1,0 +1,4 @@
+3
+Silver,11,Orange,11,LBlue,11,Green,11,Red,11,DBlue,11
+White,5,Orange,6,LBlue,6,Green,5,Red,5,DBlue,6,Magenta,6,Yellow,5,Silver,11
+White, ,Orange, ,LBlue, ,Green, ,Red, ,DBlue, ,Magenta, ,Yellow, ,Silver, ,Gold,
