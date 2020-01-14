@@ -31,28 +31,35 @@ public class Arkan extends JFrame{
 }
 
 class Level{
-	private Block[][] layout;
+	private int lvlNum;
+	private ArrayList<Block> layout;
+	private Image back;
 
-	public Level(){
-		layout = {{" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "},
-				  {" "," "," "," "," "," "," "," "," "," "," "}};
+	public Level(String line){
+		back = new ImageIcon("background.png").getImage();//load background
+		String[] info = line.split(",");
+		String[] col = new String[info.length/2];//colour names
+		int[] numCol = new int[info.length/2];//number of blocks with that colour
+		int counter = 0;
+		for(String i:info){
+			if(info.indexOf(i)%2 == 0){//odd indexes in text file (starts on 0)
+				col[counter] = i;//add to String array
+			}
+			else{
+				numCol[counter] = Integer.parseInt(i);//convert to integer
+			}
+		}
+	}
+	public void paint(){
+
 	}
 }
 
 class Block{
 	private int x,y;
+	private String colour;
 
-	public Block(String line){
-		String[] info = line.split(",");
+	public Block(){
 
 	}
 }
