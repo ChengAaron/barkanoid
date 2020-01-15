@@ -36,30 +36,43 @@ class Level{
 	private Image back;
 
 	public Level(String line){
+		layout = new ArrayList<Block>();
 		back = new ImageIcon("background.png").getImage();//load background
 		String[] info = line.split(",");
 		String[] col = new String[info.length/2];//colour names
 		int[] numCol = new int[info.length/2];//number of blocks with that colour
 		int counter = 0;
-		for(String i:info){
-			if(info.indexOf(i)%2 == 0){//odd indexes in text file (starts on 0)
-				col[counter] = i;//add to String array
+		for(String s:info){
+			if(info.indexOf(s)%2 == 0){//odd indexes in text file (starts on 0)
+				col[counter] = s;//add to String array
 			}
 			else{
-				numCol[counter] = Integer.parseInt(i);//convert to integer
+				numCol[counter] = Integer.parseInt(s);//convert to integer & add to int array
+			}
+		}
+		for(int i=0;i<col.length;i++){//for each colour block
+			for(int j=0;j<numCol[i];j++){//for the number of specified blocks
+				Block b = new Block(col[i]);
+				layout.add(b);
 			}
 		}
 	}
-	public void paint(){
+	/*public void paint(){
 
-	}
+	}*/
 }
 
 class Block{
 	private int x,y;
 	private String colour;
 
-	public Block(){
+	public Block(String col){
 
 	}
 }
+/*  1  2  3  4  5  6  7  8  9 10 11
+   12 13 14 15 16 17 18 19 20 21 22
+   23 24 25 26 27 28 29 30 31 32 33
+   34 35 36 37 38 39 40 41 42 43 44
+   45 46 47 48 49 50 51 52 53 54 55
+*/
