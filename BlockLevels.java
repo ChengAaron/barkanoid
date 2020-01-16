@@ -24,18 +24,26 @@ public class Arkan extends JFrame{
 		int tot = Integer.parseInt(inFile.nextLine());
 		for(int i=0;i<tot;i++){
 			String line = inFile.nextLine();
-			Block b = new Block(line);
-			levels.add(b);
+			Level lev = new Level(line,i);//i for level number
+			levels.add(lev);
+		}
+		int count = 0;
+		Level currentLevel = levels[count];
+		while(count<tot && currentLevel.getLives>=0;){
+
 		}
     }
 }
 
 class Level{
 	private int lvlNum;
+	private int lives;
 	private ArrayList<Block> layout;
 	private Image back;
 
-	public Level(String line){
+	public Level(String line,int i){
+		lvlNum = i;
+		lives = 6;//each level starts with same number of lives
 		layout = new ArrayList<Block>();
 		back = new ImageIcon("background.png").getImage();//load background
 		String[] info = line.split(",");
@@ -49,25 +57,29 @@ class Level{
 			else{
 				numCol[counter] = Integer.parseInt(s);//convert to integer & add to int array
 			}
+			count++;//proceed to next index
 		}
 		for(int i=0;i<col.length;i++){//for each colour block
 			for(int j=0;j<numCol[i];j++){//for the number of specified blocks
+				int arrPos = layout.size();
 				Block b = new Block(col[i]);
 				layout.add(b);
 			}
 		}
 	}
-	/*public void paint(){
+	public void paint(){
 
-	}*/
+	}
+	public int getLives(){
+		return lives;
+	}
 }
 
 class Block{
-	private int x,y;
 	private String colour;
 
 	public Block(String col){
-
+		colour = col;
 	}
 }
 /*  1  2  3  4  5  6  7  8  9 10 11
