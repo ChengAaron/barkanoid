@@ -10,9 +10,9 @@ public class Arkan extends JFrame{
 	public static ArrayList<Level> levels = new ArrayList<Level>();
 
 	public Arkan(){
-		super("Barkanoid");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(550,650);
+		super("Barkanoid");//title
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//close button closes
+		setSize(550,650);//550 wide, 650 high
 		gameTime = new Timer(10, new TickListener());
 		gameTime.start();
 
@@ -22,13 +22,13 @@ public class Arkan extends JFrame{
     public static void main(String[] args){
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("levels.txt")));//premade levels
 		int tot = Integer.parseInt(inFile.nextLine());
-		for(int i=0;i<tot;i++){
+		for(int i=0;i<tot;i++){//load levels
 			String line = inFile.nextLine();
 			Level lev = new Level(line,i);//i for level number
 			levels.add(lev);
 		}
-		int count = 0;
-		Level currentLevel = levels[count];
+		int lvlNum = 0;
+		Level currentLevel = levels[lvlNum];//initial level
 		while(count<tot && currentLevel.getLives>=0){
 
 		}
