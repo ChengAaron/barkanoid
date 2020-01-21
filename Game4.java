@@ -37,7 +37,7 @@ public class Game4 extends JFrame implements ActionListener{
 }
 
 class GamePanel extends JPanel implements KeyListener{
-	private int boxx,boxy,moveH,moveV,angle;
+	private int boxx,boxy,moveH,moveV,angle,vx,vy;
 	private boolean []keys;
 	private Image back;
 	private Game4 mainFrame;
@@ -50,9 +50,10 @@ class GamePanel extends JPanel implements KeyListener{
 		mainFrame = m;
 	    boxx = 170;
         boxy = 170;
-        moveH = 5;
-        moveV = 1;
-        angle = 45;
+        vx = 5;
+        vy = 1;
+        moveH = vx;
+        moveV = vy;
         moving = false;
 
 
@@ -112,12 +113,38 @@ class GamePanel extends JPanel implements KeyListener{
     public void collisions() {
     	if(boxx == 790) {
     		moveH = -5;
-    		moveV = 1;
+    		if(moveV > 0) {
+    			moveV = 1;
+    		} else {
+    			moveV = -1;
+    		}
     	}
 
     	if(boxx == 0) {
     		moveH = 5;
+			if(moveV > 0) {
+    			moveV = 1;
+    		} else {
+    			moveV = -1;
+    		}
+    	}
+
+    	if(boxy == 590) {
     		moveV = -1;
+    		if(moveH > 0) {
+    			moveH = 0-moveH;
+    		} else {
+    			moveH = -1*moveH;
+    		}
+    	}
+
+    	if(boxy == 0) {
+    		moveV = 1;
+    		if(moveH > 0) {
+    			moveH = 0-moveH;
+    		} else {
+    			moveH = -1*moveH;
+    		}
     	}
     }
 }
