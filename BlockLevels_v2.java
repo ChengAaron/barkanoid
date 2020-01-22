@@ -39,7 +39,6 @@ public class BlockLevels_v2 extends JFrame{
     }
 
 	public static void main(String[] args){
-
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("levels.txt")));//premade levels
 		int numLevels = Integer.parseInt(inFile.nextLine());//how many levels
 		for(int i=0;i<numLevels;i++){//load levels
@@ -52,19 +51,19 @@ public class BlockLevels_v2 extends JFrame{
 }
 
 class GamePanel extends JPanel{
-	private int boxx,boxy,moveH,moveV,angle,vx,vy;
+//	private int boxx,boxy,moveH,moveV,angle,vx,vy;
 	private Paddle paddle;
-	public boolean ready=false;
+//	public boolean ready=false;
 	private boolean[] keys;
 	private Image back;
-	private Blocklevels_v2 mainframe; 
-	private boolean moving;
+//	private BlockLevels_v2 mainframe;
+//	private boolean moving;
 
 	public GamePanel(){
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		back = new ImageIcon("background.png").getImage();
 
-		mainFrame = m;
+		mainframe = m;
 	    boxx = 170;
         boxy = 170;
         vx = 5;
@@ -72,14 +71,13 @@ class GamePanel extends JPanel{
         moveH = vx;
         moveV = vy;
         moving = false;
-		setPreferredSize( new Dimension(550, 650));
         addKeyListener(this);
 	}
 	public void addNotify() {
         super.addNotify();
         setFocusable(true);
         requestFocus();
-        mainFrame.start();
+        mainframe.start();
     }
 	public void move() {
 		if(keys[KeyEvent.VK_RIGHT] ){
@@ -98,11 +96,9 @@ class GamePanel extends JPanel{
 	private int lvlNum;
 	private int lives;
 	private ArrayList<Block> layout;
-
-
 }*/
 class Paddle{
-	private int x,y;
+	private int x,y,width,height;
 	private Image[] pics;
 	private int dir;
 	public static final int LEFT=0,RIGHT=1,STOP=2;
@@ -110,6 +106,8 @@ class Paddle{
 	public Paddle(int x,int y,String name,int powNum){//number of powerups************************
 		this.x=x;
 		this.y=y;
+		width=75;
+		height=25;
 		dir=STOP;
 
 		pics = new Image[powNum];
