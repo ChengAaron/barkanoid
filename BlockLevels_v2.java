@@ -52,15 +52,35 @@ public class BlockLevels_v2 extends JFrame{
 }
 
 class GamePanel extends JPanel{
+	private int boxx,boxy,moveH,moveV,angle,vx,vy;
 	private Paddle paddle;
 	public boolean ready=false;
 	private boolean[] keys;
 	private Image back;
+	private Blocklevels_v2 mainframe; 
+	private boolean moving;
 
 	public GamePanel(){
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		back = new ImageIcon("background.png").getImage();
+
+		mainFrame = m;
+	    boxx = 170;
+        boxy = 170;
+        vx = 5;
+        vy = 1;
+        moveH = vx;
+        moveV = vy;
+        moving = false;
+		setPreferredSize( new Dimension(550, 650));
+        addKeyListener(this);
 	}
+	public void addNotify() {
+        super.addNotify();
+        setFocusable(true);
+        requestFocus();
+        mainFrame.start();
+    }
 	public void move() {
 		if(keys[KeyEvent.VK_RIGHT] ){
 			paddle.move(5);
