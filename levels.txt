@@ -1,4 +1,4 @@
 3
-White,11,Orange,11,LBlue,11,Green,11,Red,11,DBlue,11
-White,5,Orange,6,LBlue,6,Green,5,Red,5,DBlue,6,Magenta,6,Yellow,5,White,11
-LBlue,3,DBlue,3,LBlue,3,DBlue,2,LBlue,3,DBlue,3,LBlue,3,DBlue,2,LBlue,3,DBlue,3,LBlue,3,DBlue,2,LBlue,3,DBlue,3,LBlue,3,DBlue,2
+Silver,11,White,11,LGrey,11,DGrey,11,Black,11
+Silver,11,Black,5,White,6,LGrey,5,DGrey,6,Black,5,White,6,LGrey,5,DGrey,6
+Black,22,White,22,Silver,11
