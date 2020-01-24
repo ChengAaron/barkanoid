@@ -446,6 +446,6 @@ class Block{
 			holdsPowerUp = true;
 		}
 
-		System.out.println(colour+","+x+","+y+holdsPowerUp);//**************************************************************************
+		System.out.println(colour+","+x+","+y+", "+holdsPowerUp);//**************************************************************************
 	}
 }
