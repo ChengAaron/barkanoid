@@ -37,7 +37,7 @@ public class Bouncing extends JFrame implements ActionListener{
 
     public static void main(String[] args) throws IOException {
     	Scanner inFile = new Scanner(new BufferedReader(new FileReader("levels.txt")));
-
+/*
 		ArrayList<Level> levels = new ArrayList<Level>();
 		int numLevels = Integer.parseInt(inFile.nextLine());
 		for(int i=0;i<numLevels;i++){
@@ -46,7 +46,7 @@ public class Bouncing extends JFrame implements ActionListener{
 			levels.add(lev);//add to Level arraylist
 
 			System.out.print("\n");
-		}
+		}*/
 	 	Bouncing frame = new Bouncing();
     }
 }
@@ -60,6 +60,7 @@ class GamePanel extends JPanel implements KeyListener{
 	private boolean moving;
 	private Level currentLevel;
 	private String hp;
+	private Block[][] layout;
 
 	Ball ball = new Ball(275, 602, 5, -1, 17); 						//calling ball method 
 	Paddle paddle = new Paddle(237, 620, 5, -5, 75, 10); 			//calling paddle method
@@ -88,6 +89,7 @@ class GamePanel extends JPanel implements KeyListener{
 
 		setPreferredSize( new Dimension(550, 650));
         addKeyListener(this);
+        loadLayout();
 	}
 
     public void addNotify() {
@@ -128,12 +130,61 @@ class GamePanel extends JPanel implements KeyListener{
         keys[e.getKeyCode()] = false;
     }
 
+	public void loadLayout(){
+		layout = new Block[9][11];
+		for(int i=0;i<11;i++){
+			layout[0][i]=new Block(i,1,"Silver");
+		}
+		for(int i=0;i<11;i++){
+			layout[1][i]=new Block(i,2,"White");
+		}
+		for(int i=0;i<11;i++){
+			layout[2][i]=new Block(i,3,"LGrey");
+		}
+		for(int i=0;i<11;i++){
+			layout[3][i]=new Block(i,4,"DGrey");
+		}
+		for(int i=0;i<11;i++){
+			layout[4][i]=new Block(i,5,"Black");
+		}
+		for(int i=0;i<11;i++){
+			layout[5][i]=new Block(i,6,"Black");
+		}
+		for(int i=0;i<11;i++){
+			layout[6][i]=new Block(i,7,"DGrey");
+		}
+		for(int i=0;i<11;i++){
+			layout[7][i]=new Block(i,8,"LGrey");
+		}
+		for(int i=0;i<11;i++){
+			layout[8][i]=new Block(i,9,"White");
+		}
+	}
     public void paint(Graphics g){
     	g.drawImage(back,0,0,null); //background
 		g.drawImage(ballPic, ballX, ballY, this); //ball
 		g.drawImage(paddlePic, padX, padY, this); //paddle
 		//g.drawString("Score: "+hp,2, 630); //score would be here
 		g.drawString("Lives: "+hp,2, 640);	//remaining lives
+		for(int i=0;i<9;i++){
+			for(Block b:layout[i]){
+				if(b.getCol()==0){//silver
+					g.drawImage(silver,b.getX(),b.getY(),this);
+				}
+				if(b.getCol()==1){//white
+					g.drawImage(white,b.getX(),b.getY(),this);
+				}
+				if(b.getCol()==2){//light grey
+					g.drawImage(lgrey,b.getX(),b.getY(),this);
+				}
+				if(b.getCol()==3){//dark grey
+					g.drawImage(dgrey,b.getX(),b.getY(),this);
+				}
+				if(b.getCol()==4){//black
+					g.drawImage(black,b.getX(),b.getY(),this);
+				}
+			}
+		}
     }
 
     public void bounceOffWall() {
@@ -326,7 +377,7 @@ class Level{
 				count++;//only increases every 2 indexes
 			}
 		}
-		loadLayout();
+		//loadLayout();
 	}
 	/*public void loadLayout(int numObj){
 		/////////////pseudo-grid/////////////
@@ -375,24 +426,6 @@ class Level{
 			}
 		}
 	}*/
-	public void loadLayout(){
-		Block[][] layout = new Block[5][11];
-		for(int i=0;i<11;i++){
-			layout[0][i]=new Block(i+1,1,"Silver");
-		}
-		for(int i=0;i<11;i++){
-			layout[1][i]=new Block(i+1,2,"White");
-		}
-		for(int i=0;i<11;i++){
-			layout[2][i]=new Block(i+1,3,"LGrey");
-		}
-		for(int i=0;i<11;i++){
-			layout[3][i]=new Block(i+1,4,"DGrey");
-		}
-		for(int i=0;i<11;i++){
-			layout[4][i]=new Block(i+1,5,"Black");
-		}
-	}
 
 
 	public int getLvl(){
@@ -429,6 +462,13 @@ class Block{
 		if(col.equals("Black")){
 			colour = BLACK;
 		}
+	}
+	
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
 	}
 	
 	public int getCol(){
