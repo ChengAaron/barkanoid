@@ -11,10 +11,9 @@ public class Bouncing extends JFrame implements ActionListener{
 	Timer myTimer; 
 	GamePanel game;
 
-	public static Level currentLevel;
 
     public Bouncing() {
-		super("Move the Ball");
+		super("Barkanoid");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		myTimer = new Timer(7, this);	 // trigger every 7 ms
@@ -46,33 +45,35 @@ public class Bouncing extends JFrame implements ActionListener{
 			Level lev = new Level(line,i);
 			levels.add(lev);//add to Level arraylist
 
-			System.out.print("\n");//**************************************************************************************************
+			System.out.print("\n");
 		}
-		currentLevel = levels.get(0);
 	 	Bouncing frame = new Bouncing();
     }
-
-    public static void gameRunning(){
-		currentLevel.buildLayout();
-	}
 }
 
 class GamePanel extends JPanel implements KeyListener{
 	private boolean []keys;
 	private int moveX, moveY, ballX, ballY, padX, padY, lives;
 	private Image back, ballPic, paddlePic;
+	private Image silver,white,lgrey,dgrey,black;
 	private Bouncing mainFrame;
 	private boolean moving;
+	private Level currentLevel;
 	private String hp;
 
 	Ball ball = new Ball(275, 602, 5, -1, 17); 						//calling ball method 
-	Paddle paddle = new Paddle(237, 620, 5, -5, 75, 10); 				//calling paddle method
+	Paddle paddle = new Paddle(237, 620, 5, -5, 75, 10); 			//calling paddle method
 
 	public GamePanel (Bouncing m){
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		back = new ImageIcon("background.png").getImage();
 		ballPic = new ImageIcon("ball.png").getImage();
 		paddlePic = new ImageIcon("paddle.png").getImage();
+		silver = new ImageIcon("silver.png").getImage();
+		white = new ImageIcon("white.png").getImage();
+		lgrey = new ImageIcon("lgrey.png").getImage();
+		dgrey = new ImageIcon("dgrey.png").getImage();
+		black = new ImageIcon("black.png").getImage();
 
 		mainFrame = m;
 		moveX = ball.getVX(); 		//horizontal movement of ball
@@ -114,7 +115,7 @@ class GamePanel extends JPanel implements KeyListener{
 		}
 
 		//System.out.println(ballx+", "+ball.getBallX()+", "+ball.getVX());
-		//System.out.println("("+(ballX)+", "+(ballY)+")");
+		System.out.println("("+(ballX)+", "+(ballY)+")");
 	}
 
     public void keyTyped(KeyEvent e) {}
@@ -131,7 +132,8 @@ class GamePanel extends JPanel implements KeyListener{
     	g.drawImage(back,0,0,null); //background
 		g.drawImage(ballPic, ballX, ballY, this); //ball
 		g.drawImage(paddlePic, padX, padY, this); //paddle
-		g.drawString("HP: "+hp,5, 640);
+		//g.drawString("Score: "+hp,2, 630); //score would be here
+		g.drawString("Lives: "+hp,2, 640);	//remaining lives
     }
 
     public void bounceOffWall() {
@@ -146,7 +148,7 @@ class GamePanel extends JPanel implements KeyListener{
     		}
     	}
 
-    	if(ballX == 0) {						//if ball bounces off of left side of screen
+    	if(ballX <= -1) {						//if ball bounces off of left side of screen
     		moveX = ball.getVX();
 			if(moveY > 0) {
     			moveY = ball.getVY()*-1;
@@ -156,13 +158,13 @@ class GamePanel extends JPanel implements KeyListener{
     		}
     	}
 
-    	if(ballY == 0) {						//if ball bounces off of top side of screen
-    		moveY = 1;
+    	if(ballY <= -1) {						//if ball bounces off of top side of screen
+    		moveY = ball.getVY()*-1;
     		if(moveX > 0) {
-    			moveX = ball.getVX()*-1;
+    			moveX = ball.getVX();
     		} 
     		if(moveX < 0) {
-    			moveX = ball.getVX();
+    			moveX = ball.getVX()*-1;
     		}
     	}
 
@@ -183,26 +185,41 @@ class GamePanel extends JPanel implements KeyListener{
     }
 
     public void collisions() {
-    	if(ballX <= padX+paddle.getPadLength() && ballX >= padX && ballY == padY-ball.getDiameter()) { 	//if coords of ball are equal to top surface of paddle
-    		moveY = ball.getVY();
-    		if(moveX > 0) {
-    			moveX = ball.getVX();
+    	if(ballX <= padX+paddle.getPadWidth() && ballX >= padX && ballY == padY-ball.getDiameter()) { 	//if coords of ball are equal to top surface of paddle
+    		//setAngle(); //depending on where the ball hits the paddle, speed of the vertical direction changes
+    		moveY = ball.getVY(); //set new vertical direction
+    		if(moveX > 0) { //if 
+    			moveX = ball.getVX()*-1;
     		} 
     		if(moveX < 0) {
-    			moveX = ball.getVX()*-1;
+    			moveX = ball.getVX();
     		}
     	}
 
-    	if(ballY >= padY-7 && ballY <= padY+ball.getDiameter() && ballX == padX+paddle.getPadLength()) { 	//if coords of ball are equal to right side of paddle
-    		moveY = -1;
+    	if(ballY > padY-4 && ballY <= padY+10 && ballX == padX+paddle.getPadWidth()) { 	//if coords of ball are equal to right side of paddle
+    		moveY = ball.getVY();
     		moveX = ball.getVX();
     	}
 
-    	if(ballY >= padY-7 && ballY <= padY+ball.getDiameter() && ballX == padX) { 	//if coords of ball are equal to left side of paddle
-    		moveY = -1;
+    	if(ballY > padY-4 && ballY <= padY+10 && ballX == padX) { 	//if coords of ball are equal to left side of paddle
+    		moveY = ball.getVY();
     		moveX = ball.getVX()*-1;
     	}
     }
+
+    public void setAngle() { //changing speed of vertical direction
+    	if(ballX < padX+10 || ballX > padX+paddle.getPadWidth()-10) {
+    		ball.setVY(-1);
+    	}
+    	if(ballX < padX+20 || ballX > padX+paddle.getPadWidth()-20) {
+    		ball.setVY(-2);
+    	}
+    	else {
+    		ball.setVY(-3);
+    	}
+
+    }
+    
 
     public void gameOver() {
     	System.out.println("Game Over");
@@ -240,18 +257,22 @@ class Ball {
 	public int getDiameter() {
 		return diameter;
 	}
+
+	public void setVY(int angle) {
+		vy = angle;
+	}
 }
 
 class Paddle {
-	private int padx,pady,moveR,moveL, padLength, padWidth;
+	private int padx,pady,moveR,moveL,padWidth,padHeight;
 
-	public Paddle(int padx, int pady, int moveR, int moveL, int padLength, int padWidth) {
+	public Paddle(int padx, int pady, int moveR, int moveL, int padWidth, int padHeight) {
 		this.padx = padx;
 		this.pady = pady;
 		this.moveR = moveR;
 		this.moveL = moveL;
-		this.padLength = padLength;
 		this.padWidth = padWidth;
+		this.padHeight = padHeight;
 	}
 
 	public int getPadX() {
@@ -270,14 +291,15 @@ class Paddle {
 		return moveL;
 	}
 
-	public int getPadLength() {
-		return padLength;
-	}
-
 	public int getPadWidth() {
 		return padWidth;
 	}
+
+	public int getPadHeight() {
+		return padHeight;
+	}
 }
+
 
 class Level{
 	private int lvlNum;
@@ -289,6 +311,7 @@ class Level{
 	public Level(String line,int currentLvl){
 		layout = new ArrayList<Block>();
 		lvlNum = currentLvl;
+		lives = 5;
 		String[] rawAssets = line.split(",");
 		int numTrueObjects = rawAssets.length/2;//objects in pairs: colour and amount
 		colours = new String[numTrueObjects];
@@ -352,22 +375,17 @@ class Level{
 			}
 		}
 	}
-	public void buildLayout(){
-		System.out.println("PLACEHOLDER buildLayout");
-	}
+
+
 
 	public int getLvl(){
 		return lvlNum;
-	}
-	public int getLives(){
-		return lives;
 	}
 }
 
 class Block{
 	private int x,y,width,height;//position and dimensions
 	private int hp,colour;//intrinsic properties
-	private int points;
 
 	public static int SILVER,WHITE,LGREY,DGREY,BLACK;//colours for the blocks
 
@@ -378,11 +396,9 @@ class Block{
 		y = rawY*height+20;//shifted down 20px
 		//after multiplying and shifting, last possible block should end up at 550,120
 		hp = 1;//minimum hp
-		points = 2;//minimum points
 		if(col.equals("Silver")){
 			colour = SILVER;
 			hp+=2;//Silver blocks take 3 hits
-			points+=8;//worth 10 points
 		}
 		if(col.equals("White")){
 			colour = WHITE;
@@ -396,5 +412,9 @@ class Block{
 		if(col.equals("Black")){
 			colour = BLACK;
 		}
+	}
+	
+	public int getCol(){
+		return colour;
 	}
 }
