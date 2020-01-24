@@ -8,7 +8,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 public class Bouncing extends JFrame implements ActionListener{
-	Timer myTimer; 
+	Timer myTimer;
 	GamePanel game;
 
 
@@ -44,7 +44,6 @@ public class Bouncing extends JFrame implements ActionListener{
 			String line = inFile.nextLine();
 			Level lev = new Level(line,i);
 			levels.add(lev);//add to Level arraylist
-
 			System.out.print("\n");
 		}*/
 	 	Bouncing frame = new Bouncing();
@@ -62,7 +61,7 @@ class GamePanel extends JPanel implements KeyListener{
 	private String hp;
 	private Block[][] layout;
 
-	Ball ball = new Ball(275, 602, 5, -1, 17); 						//calling ball method 
+	Ball ball = new Ball(275, 602, 5, -1, 17); 						//calling ball method
 	Paddle paddle = new Paddle(237, 620, 5, -5, 75, 10); 			//calling paddle method
 
 	public GamePanel (Bouncing m){
@@ -114,19 +113,20 @@ class GamePanel extends JPanel implements KeyListener{
 			ballY += moveY;
 			bounceOffWall();
 			collisions();
+			//brickCollision();
 		}
 
 		//System.out.println(ballx+", "+ball.getBallX()+", "+ball.getVX());
-		System.out.println("("+(ballX)+", "+(ballY)+")");
+		//System.out.println("("+(ballX)+", "+(ballY)+")");
 	}
 
     public void keyTyped(KeyEvent e) {}
 
-    public void keyPressed(KeyEvent e) { 
+    public void keyPressed(KeyEvent e) {
         keys[e.getKeyCode()] = true;
     }
 
-    public void keyReleased(KeyEvent e) { 
+    public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
     }
 
@@ -187,13 +187,23 @@ class GamePanel extends JPanel implements KeyListener{
 		}
     }
 
+	/*public void brickCollision() {
+		for(int i = 1; i<6; i++) {
+			for(int j = 0; i<=11; j++) {
+				if(ballX >= layout[i][j].getX() && ballX < layout[i][j].getX()+50 && ballY == layout[i][j].getY()+20) {
+					System.out.println("Collide");
+				}
+			}
+		}
+	}*/
+
     public void bounceOffWall() {
 
     	if(ballX >= getWidth()-ball.getDiameter()) {			//if ball bounces off of right side of screen
     		moveX = ball.getVX()*-1;
     		if(moveY > 0) {
     			moveY = ball.getVY()*-1;
-    		} 
+    		}
     		if(moveY < 0) {
     			moveY = ball.getVY();
     		}
@@ -203,7 +213,7 @@ class GamePanel extends JPanel implements KeyListener{
     		moveX = ball.getVX();
 			if(moveY > 0) {
     			moveY = ball.getVY()*-1;
-    		} 
+    		}
     		if(moveY < 0) {
     			moveY = ball.getVY();
     		}
@@ -213,7 +223,7 @@ class GamePanel extends JPanel implements KeyListener{
     		moveY = ball.getVY()*-1;
     		if(moveX > 0) {
     			moveX = ball.getVX();
-    		} 
+    		}
     		if(moveX < 0) {
     			moveX = ball.getVX()*-1;
     		}
@@ -239,11 +249,11 @@ class GamePanel extends JPanel implements KeyListener{
     	if(ballX <= padX+paddle.getPadWidth() && ballX >= padX && ballY == padY-ball.getDiameter()) { 	//if coords of ball are equal to top surface of paddle
     		//setAngle(); //depending on where the ball hits the paddle, speed of the vertical direction changes
     		moveY = ball.getVY(); //set new vertical direction
-    		if(moveX > 0) { //if 
-    			moveX = ball.getVX()*-1;
-    		} 
-    		if(moveX < 0) {
+    		if(moveX > 0) { //if
     			moveX = ball.getVX();
+    		}
+    		if(moveX < 0) {
+    			moveX = ball.getVX()*-1;
     		}
     	}
 
@@ -270,7 +280,7 @@ class GamePanel extends JPanel implements KeyListener{
     	}
 
     }
-    
+
 
     public void gameOver() {
     	System.out.println("Game Over");
@@ -388,7 +398,6 @@ class Level{
 		int line4 = 44;
 		int line5 = 55;//    maximum level size is 5 rows
 		/////////////////////////////////////
-
 		int x,y = 0;
 		for(int i=0;i<numObj;i++){//for each colour and amount
 			for(int j=0;j<fillAmount[i];j++){//make fillAmount[i] Blocks
@@ -463,14 +472,14 @@ class Block{
 			colour = BLACK;
 		}
 	}
-	
+
 	public int getX(){
 		return x;
 	}
 	public int getY(){
 		return y;
 	}
-	
+
 	public int getCol(){
 		return colour;
 	}
