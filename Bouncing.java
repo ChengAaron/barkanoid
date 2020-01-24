@@ -367,6 +367,7 @@ class Level{
 class Block{
 	private int x,y,width,height;//position and dimensions
 	private int hp,colour;//intrinsic properties
+	private int points;
 
 	public static int SILVER,WHITE,LGREY,DGREY,BLACK;//colours for the blocks
 
@@ -377,9 +378,11 @@ class Block{
 		y = rawY*height+20;//shifted down 20px
 		//after multiplying and shifting, last possible block should end up at 550,120
 		hp = 1;//minimum hp
+		points = 2;//minimum points
 		if(col.equals("Silver")){
 			colour = SILVER;
 			hp+=2;//Silver blocks take 3 hits
+			points+=8;//worth 10 points
 		}
 		if(col.equals("White")){
 			colour = WHITE;
