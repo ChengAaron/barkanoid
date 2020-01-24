@@ -8,25 +8,26 @@ import java.awt.image.*;
 import javax.swing.*;
 
 public class Arkan extends JFrame{
+public class Arkan {
 	public static Level currentLevel;
-
+	
 	public static void main(String[] args) throws IOException{
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("levels.txt")));
-
+		
 		ArrayList<Level> levels = new ArrayList<Level>();
 		int numLevels = Integer.parseInt(inFile.nextLine());
 		for(int i=0;i<numLevels;i++){
 			String line = inFile.nextLine();
 			Level lev = new Level(line,i);
 			levels.add(lev);//add to Level arraylist
-
+			
 			System.out.print("\n");//**************************************************************************************************
 		}
 		currentLevel = levels.get(0);
 		/*while(currentLevel.getLives()>0 && levels.size()>0){
 			gameRunning();
 		}*/
-
+		
 	}
 	public static void gameRunning(){
 		currentLevel.buildLayout();
@@ -39,7 +40,7 @@ class Level{
 	private ArrayList<Block> layout;
 	private String[] colours;
 	private int[] fillAmount;
-
+	
 	public Level(String line,int currentLvl){
 		layout = new ArrayList<Block>();
 		lvlNum = currentLvl;
@@ -69,7 +70,7 @@ class Level{
 		int line4 = 44;
 		int line5 = 55;//    maximum level size is 5 rows
 		/////////////////////////////////////
-
+		
 		int x,y = 0;//*********************NOTE TO SELF************************if code is not working: try moving this inside the for loop
 		for(int i=0;i<numObj;i++){//for each colour and amount
 			for(int j=0;j<fillAmount[i];j++){//make fillAmount[i] Blocks
@@ -110,7 +111,7 @@ class Level{
 	public void buildLayout(){
 		System.out.println("PLACEHOLDER buildLayout");
 	}
-
+	
 	public int getLvl(){
 		return lvlNum;
 	}
@@ -123,9 +124,9 @@ class Block{
 	private int x,y,width,height;//position and dimensions
 	private int hp,colour;//intrinsic properties
 	private boolean holdsPowerUp;
-
+	
 	public static int SILVER,WHITE,LGREY,DGREY,BLACK;//colours for the blocks
-
+	
 	public Block(int rawX,int rawY,String col){
 		SILVER=0;WHITE=1;LGREY=2;DGREY=3;BLACK=4;
 		width = 50; height = 20;
@@ -133,20 +134,20 @@ class Block{
 		y = rawY*height+20;//shifted down 20px
 		//after multiplying and shifting, last possible block should end up at 550,120
 		hp = 1;//minimum hp
-		if(col.equals("Silver")){
+		if(col=="Silver"){
 			colour = SILVER;
 			hp+=2;//Silver blocks take 3 hits
 		}
-		if(col.equals("White")){
+		if(col=="White"){
 			colour = WHITE;
 		}
-		if(col.equals("LGrey")){
+		if(col=="LGrey"){
 			colour = LGREY;
 		}
-		if(col.equals("DGrey")){
+		if(col=="DGrey"){
 			colour = DGREY;
 		}
-		if(col.equals("Black")){
+		if(col=="Black"){
 			colour = BLACK;
 		}
 		holdsPowerUp = false;
@@ -155,7 +156,7 @@ class Block{
 		if(powerPick==1){
 			holdsPowerUp = true;
 		}
-
-		System.out.println(colour+","+x+","+y+holdsPowerUp);//**************************************************************************
+		
+		System.out.println(colour+x+","+y+holdsPowerUp);//**************************************************************************
 	}
 }
