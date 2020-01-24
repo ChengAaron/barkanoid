@@ -64,14 +64,14 @@ class GamePanel extends JPanel implements KeyListener{
 	private Bouncing mainFrame;
 	private boolean moving;
 
-	Ball ball = new Ball(275, 604, 5, -1); 						//calling ball method 
+	Ball ball = new Ball(275, 604, 5, -1, 17); 						//calling ball method 
 	Paddle paddle = new Paddle(237, 620, 5, -5); 				//calling paddle method
 
 	public GamePanel (Bouncing m){
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		back = new ImageIcon("background.png").getImage();
 		ballPic = new ImageIcon("ball.png").getImage();
-		paddlePic = new ImageIcon("1.png").getImage();
+		paddlePic = new ImageIcon("paddle.png").getImage();
 
 		mainFrame = m;
 		moveX = ball.getVX(); 		//horizontal movement of ball
@@ -133,7 +133,7 @@ class GamePanel extends JPanel implements KeyListener{
     public void bounceOffWall() {
 
     	if(ballX >= getWidth()-17) {			//if ball bounces off of right side of screen
-    		moveX = -5;
+    		moveX = ball.getVX()*-1;
     		if(moveY > 0) {
     			moveY = ball.getVY()*-1;
     		} 
@@ -143,7 +143,7 @@ class GamePanel extends JPanel implements KeyListener{
     	}
 
     	if(ballX == 0) {						//if ball bounces off of left side of screen
-    		moveX = 5;
+    		moveX = ball.getVX();
 			if(moveY > 0) {
     			moveY = ball.getVY()*-1;
     		} 
@@ -155,7 +155,7 @@ class GamePanel extends JPanel implements KeyListener{
     	if(ballY == 0) {						//if ball bounces off of top side of screen
     		moveY = 1;
     		if(moveX > 0) {
-    			moveX = ball.getVX()*-5;
+    			moveX = ball.getVX()*-1;
     		} 
     		if(moveX < 0) {
     			moveX = ball.getVX();
@@ -171,21 +171,21 @@ class GamePanel extends JPanel implements KeyListener{
     	if(ballX <= padX+75 && ballX >= padX && ballY == padY-17) { 	//if coords of ball are equal to top surface of paddle
     		moveY = -1;
     		if(moveX > 0) {
-    			moveX = ball.getVX()*-5;
+    			moveX = ball.getVX()*-1;
     		} 
     		if(moveX < 0) {
     			moveX = ball.getVX();
     		}
     	}
 
-    	if(ballY >= padY-7 && ballY <= padY+10 && ballX == padX+75) { 	//if coords of ball are equal to right side of paddle
+    	if(ballY >= padY-7 && ballY <= padY+17 && ballX == padX+75) { 	//if coords of ball are equal to right side of paddle
     		moveY = -1;
     		moveX = ball.getVX();
     	}
 
-    	if(ballY >= padY-7 && ballY <= padY+10 && ballX == padX) { 	//if coords of ball are equal to left side of paddle
+    	if(ballY >= padY-7 && ballY <= padY+17 && ballX == padX) { 	//if coords of ball are equal to left side of paddle
     		moveY = -1;
-    		moveX = ball.getVX()*-5;
+    		moveX = ball.getVX()*-1;
     	}
     }
 
@@ -193,6 +193,61 @@ class GamePanel extends JPanel implements KeyListener{
     	System.out.println("Game Over");
     	System.exit(0);
     }
+}
+
+class Ball {
+	private int ballx,bally,vx,vy,diameter;
+
+	public Ball(int ballx, int bally, int vx, int vy, int diameter) {
+		this.ballx = ballx;
+		this.bally = bally;
+		this.vx = vx;
+		this.vy = vy;
+		this.diameter = diameter;
+	}
+
+	public int getBallX() {
+		return ballx;
+	}
+
+	public int getBallY() {
+		return bally;
+	}
+
+	public int getVX() {
+		return vx;
+	}
+
+	public int getVY() {
+		return vy;
+	}
+}
+
+class Paddle {
+	private int padx,pady,moveR,moveL;
+
+	public Paddle(int padx, int pady, int moveR, int moveL) {
+		this.padx = padx;
+		this.pady = pady;
+		this.moveR = moveR;
+		this.moveL = moveL;
+	}
+
+	public int getPadX() {
+		return padx;
+	}
+
+	public int getPadY() {
+		return pady;
+	}
+
+	public int getMoveR() {
+		return moveR;
+	}
+
+	public int getMoveL() {
+		return moveL;
+	}
 }
 
 class Level{
@@ -281,138 +336,9 @@ class Level{
 	}
 }
 
-/*class Ball {
-	private int ballx,bally,vx,vy;
-
-	public Ball(int ballx, int bally, int vx, int vy) {
-		this.ballx = ballx;
-		this.bally = bally;
-		this.vx = vx;
-		this.vy = vy;
-	}
-
-	public int getBallX() {
-		return ballx;
-	}
-
-	public int getBallY() {
-		return bally;
-	}
-
-	public int getVX() {
-		return vx;
-	}
-
-	public int getVY() {
-		return vy;
-	}
-}*/
-class Ball{
-	private int diameter;//size of ball
-	private int x,y;//position
-	private int velX,velY;//velocity components
-	
-	public Ball(){//create the ball
-		diameter = 17;
-		x=275;y=610;//starting position
-		velX=0;velY=0;//stopped
-	}
-	//return position
-	public int getX(){
-		return x;
-	}
-	public int getY(){
-		return y;
-	}
-	//return velocity
-	public int getVelX(){
-		return velX;
-	}
-	public int getVelY(){
-		return velY;
-	}
-	
-	public void newVelX(int velocity){
-		velX = velocity;
-	}
-	public void newVelY(int velocity){
-		velY = velocity;
-	}
-}
-
-/*class Paddle {
-	private int padx,pady,moveR,moveL;
-
-	public Paddle(int padx, int pady, int moveR, int moveL) {
-		this.padx = padx;
-		this.pady = pady;
-		this.moveR = moveR;
-		this.moveL = moveL;
-	}
-
-	public int getPadX() {
-		return padx;
-	}
-
-	public int getPadY() {
-		return pady;
-	}
-
-	public int getMoveR() {
-		return moveR;
-	}
-
-	public int getMoveL() {
-		return moveL;
-	}
-}*/
-class Paddle{
-	private int height,width;
-	private int x,y;
-	private int state;//default or power up
-	
-	public static int DEFAULT,CATCH;
-	
-	public Paddle(){
-		DEFAULT=0;CATCH=1;
-		height=13;width=75;
-		x=275;//x will change
-		y=620;//y is constant
-		state = DEFAULT;
-	}
-	
-	public int getPadX(){
-		return x;
-	}
-	public int getPadY(){
-		return y;//might come in handy
-	}
-	public int getState(){
-		return state;
-	}
-	
-	public void goLeft(){
-		if(x>1){
-			x=x-1;
-		}
-		else{
-			x=5;
-		}
-	}
-	public void goRight(){
-		if(x<549){
-			x=x+1;
-		}
-		else{
-			x=545;
-		}
-	}
-}
-
 class Block{
 	private int x,y,width,height;//position and dimensions
 	private int hp,colour;//intrinsic properties
-	private boolean holdsPowerUp;
 
 	public static int SILVER,WHITE,LGREY,DGREY,BLACK;//colours for the blocks
 
@@ -439,13 +365,5 @@ class Block{
 		if(col.equals("Black")){
 			colour = BLACK;
 		}
-		holdsPowerUp = false;
-		//each block has a 1/10 chance of holding one of three power ups
-		int powerPick = (int)(Math.random() * 10 + 1);//random number between 1 and 10
-		if(powerPick==1){
-			holdsPowerUp = true;
-		}
-
-		System.out.println(colour+","+x+","+y+", "+holdsPowerUp);//**************************************************************************
 	}
 }
