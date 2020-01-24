@@ -1,3 +1,13 @@
+//Barkanoid
+//Richard Zhou & Aaron Cheng
+//Parody of arkanoid game with a dog theme
+//Even before the due date of this project, out knowledge of graphics in java was still severely lacking
+//This combined with the time crunch we had to make the game (the day before) was too much
+//Our lack of knowledge with graphics made our original plan of both of us making half the game and then combining both halves
+//proved to be more difficult than we initially thought.
+//Our severe under estimation of the difficulty of this project and our lack of skill and knowledge with graphics resulted in this game
+//at a state of not being playable.
+
 import java.util.Scanner;
 import java.util.Random;//these assets had to be imported separately as to not interfere
 import java.util.ArrayList;//with swing's Timer
@@ -194,8 +204,12 @@ class GamePanel extends JPanel implements KeyListener{
 			}
 		}
     }
+	/*For collisions, our original plan was to use hitboxes by making rectangles for every block, the ball, and paddle. Then we would use intersects
+	to check if the hitbox collides with another other hitbox specified. Because we were not able to get this to work, we switched to using the x and y
+	positions of the individual objects.
+	*/
 
-    public void bounceOffWall() {
+    public void bounceOffWall() { //if ball collides with gamepanel sides
 
     	if(ballX >= getWidth()-ball.getDiameter()) {	//if ball bounces off of right side of screen
     		moveX = ball.getVX()*-1;
@@ -227,7 +241,7 @@ class GamePanel extends JPanel implements KeyListener{
     		}
     	}
 
-    	if(ballY >= getHeight()-ball.getDiameter()) {//bottom of screen
+    	if(ballY >= getHeight()-ball.getDiameter()) {//bottom of screen, die or lose a life
     		lives--;//lose a life
     		if(lives==0) {
     			gameOver();
@@ -243,7 +257,7 @@ class GamePanel extends JPanel implements KeyListener{
     	}
     }
 
-    public void collisions() {
+    public void collisions() { //if ball collides with paddle
     	if(ballX <= padX+paddle.getPadWidth() && ballX >= padX && ballY == padY-ball.getDiameter()) { 	//if coords of ball are equal to top surface of paddle
     		//setAngle(); //depending on where the ball hits the paddle, speed of the vertical direction changes
     		moveY = ball.getVY(); //set new vertical direction
@@ -276,7 +290,7 @@ class GamePanel extends JPanel implements KeyListener{
 		}
 	}*/
 
-    public void setAngle() { //changing speed of vertical direction
+    public void setAngle() { //changing speed of vertical direction depending on where ball collides with paddle
     	if(ballX < padX+10 || ballX > padX+paddle.getPadWidth()-10) {
     		ball.setVY(-1);
     	}
@@ -296,8 +310,8 @@ class GamePanel extends JPanel implements KeyListener{
     }
 }
 
-class Ball {
-	private int ballx,bally,vx,vy,diameter;
+class Ball { 
+	private int ballx,bally,vx,vy,diameter; //ball x pos, ball y pos, horizontal speed, vertical speed, diameter of ball
 
 	public Ball(int ballx, int bally, int vx, int vy, int diameter) {
 		this.ballx = ballx;
@@ -307,7 +321,7 @@ class Ball {
 		this.diameter = diameter;
 	}
 
-	public int getBallX() {
+	public int getBallX() { //get and sets for ball variables
 		return ballx;
 	}
 	public int getBallY() {
@@ -331,8 +345,8 @@ class Ball {
 }
 
 class Paddle {
-	private int padx,pady,moveR,moveL,padWidth,padHeight;
-
+	private int padx,pady,moveR,moveL,padWidth,padHeight; //paddle x pos, paddle y pos, how much paddle moves to right, how much paddle moves to left
+							      //paddle width, paddle height
 	public Paddle(int padx, int pady, int moveR, int moveL, int padWidth, int padHeight) {
 		this.padx = padx;
 		this.pady = pady;
@@ -342,7 +356,7 @@ class Paddle {
 		this.padHeight = padHeight;
 	}
 
-	public int getPadX() {
+	public int getPadX() { //gets and sets for paddle
 		return padx;
 	}
 	public int getPadY() {
