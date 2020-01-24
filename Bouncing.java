@@ -71,7 +71,7 @@ class GamePanel extends JPanel implements KeyListener{
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		back = new ImageIcon("background.png").getImage();
 		ballPic = new ImageIcon("ball.png").getImage();
-		paddlePic = new ImageIcon("paddle.png").getImage();
+		paddlePic = new ImageIcon("1.png").getImage();
 
 		mainFrame = m;
 		moveX = ball.getVX(); 		//horizontal movement of ball
@@ -281,8 +281,7 @@ class Level{
 	}
 }
 
-
-class Ball {
+/*class Ball {
 	private int ballx,bally,vx,vy;
 
 	public Ball(int ballx, int bally, int vx, int vy) {
@@ -307,9 +306,41 @@ class Ball {
 	public int getVY() {
 		return vy;
 	}
+}*/
+class Ball{
+	private int diameter;//size of ball
+	private int x,y;//position
+	private int velX,velY;//velocity components
+	
+	public Ball(){//create the ball
+		diameter = 17;
+		x=275;y=610;//starting position
+		velX=0;velY=0;//stopped
+	}
+	//return position
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+	//return velocity
+	public int getVelX(){
+		return velX;
+	}
+	public int getVelY(){
+		return velY;
+	}
+	
+	public void newVelX(int velocity){
+		velX = velocity;
+	}
+	public void newVelY(int velocity){
+		velY = velocity;
+	}
 }
 
-class Paddle {
+/*class Paddle {
 	private int padx,pady,moveR,moveL;
 
 	public Paddle(int padx, int pady, int moveR, int moveL) {
@@ -333,6 +364,48 @@ class Paddle {
 
 	public int getMoveL() {
 		return moveL;
+	}
+}*/
+class Paddle{
+	private int height,width;
+	private int x,y;
+	private int state;//default or power up
+	
+	public static int DEFAULT,CATCH;
+	
+	public Paddle(){
+		DEFAULT=0;CATCH=1;
+		height=13;width=75;
+		x=275;//x will change
+		y=620;//y is constant
+		state = DEFAULT;
+	}
+	
+	public int getPadX(){
+		return x;
+	}
+	public int getPadY(){
+		return y;//might come in handy
+	}
+	public int getState(){
+		return state;
+	}
+	
+	public void goLeft(){
+		if(x>1){
+			x=x-1;
+		}
+		else{
+			x=5;
+		}
+	}
+	public void goRight(){
+		if(x<549){
+			x=x+1;
+		}
+		else{
+			x=545;
+		}
 	}
 }
 

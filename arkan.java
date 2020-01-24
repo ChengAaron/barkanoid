@@ -12,7 +12,7 @@ public class arkan extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setSize(800,650);
 
-		myTimer = new Timer(10, this);// trigger every 10 ms
+		myTimer = new Timer(10,this);// trigger every 10 ms
 
 
 		game = new GamePanel(this);
