@@ -59,10 +59,11 @@ public class Bouncing extends JFrame implements ActionListener{
 
 class GamePanel extends JPanel implements KeyListener{
 	private boolean []keys;
-	private int moveX, moveY, ballX, ballY, padX, padY;
+	private int moveX, moveY, ballX, ballY, padX, padY, lives;
 	private Image back, ballPic, paddlePic;
 	private Bouncing mainFrame;
 	private boolean moving;
+	private String hp;
 
 	Ball ball = new Ball(275, 602, 5, -1, 17); 						//calling ball method 
 	Paddle paddle = new Paddle(237, 620, 5, -5, 75, 10); 				//calling paddle method
@@ -81,6 +82,8 @@ class GamePanel extends JPanel implements KeyListener{
         padX = paddle.getPadX(); 	//current x pos of paddle
         padY = paddle.getPadY(); 	//current y pos of paddle
         moving = false; 			//if ball is moving
+        lives = 3;
+        hp = Integer.toString(lives);
 
 		setPreferredSize( new Dimension(550, 650));
         addKeyListener(this);
@@ -128,6 +131,7 @@ class GamePanel extends JPanel implements KeyListener{
     	g.drawImage(back,0,0,null); //background
 		g.drawImage(ballPic, ballX, ballY, this); //ball
 		g.drawImage(paddlePic, padX, padY, this); //paddle
+		g.drawString("HP: "+hp,5, 640);
     }
 
     public void bounceOffWall() {
@@ -163,18 +167,29 @@ class GamePanel extends JPanel implements KeyListener{
     	}
 
     	if(ballY >= getHeight()-ball.getDiameter()) {			//die if you touch bottom
-    		gameOver();
+    		lives--;
+    		if(lives==0) {
+    			gameOver();
+    		}
+    		else {
+    			moving = false;
+    			ballX = 275;
+    			ballY = 602;
+    			moveX = ball.getVX();
+    			moveY = ball.getVY();
+    			hp = Integer.toString(lives);
+    		}
     	}
     }
 
     public void collisions() {
     	if(ballX <= padX+paddle.getPadLength() && ballX >= padX && ballY == padY-ball.getDiameter()) { 	//if coords of ball are equal to top surface of paddle
-    		moveY = ball.getVY()*-1;
+    		moveY = ball.getVY();
     		if(moveX > 0) {
-    			moveX = ball.getVX()*-1;
+    			moveX = ball.getVX();
     		} 
     		if(moveX < 0) {
-    			moveX = ball.getVX();
+    			moveX = ball.getVX()*-1;
     		}
     	}
 
@@ -274,7 +289,6 @@ class Level{
 	public Level(String line,int currentLvl){
 		layout = new ArrayList<Block>();
 		lvlNum = currentLvl;
-		lives = 5;
 		String[] rawAssets = line.split(",");
 		int numTrueObjects = rawAssets.length/2;//objects in pairs: colour and amount
 		colours = new String[numTrueObjects];
