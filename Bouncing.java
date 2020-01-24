@@ -377,20 +377,20 @@ class Level{
 	}*/
 	public void loadLayout(){
 		Block[][] layout = new Block[5][11];
-		for(int i=1;i<=11;i++){
-			layout[1][i]=new Block(i,1,"Silver");
+		for(int i=0;i<11;i++){
+			layout[0][i]=new Block(i+1,1,"Silver");
 		}
-		for(int i=1;i<=11;i++){
-			layout[2][i]=new Block(i,2,"White");
+		for(int i=0;i<11;i++){
+			layout[1][i]=new Block(i+1,2,"White");
 		}
-		for(int i=1;i<=11;i++){
-			layout[3][i]=new Block(i,3,"LGrey");
+		for(int i=0;i<11;i++){
+			layout[2][i]=new Block(i+1,3,"LGrey");
 		}
-		for(int i=1;i<=11;i++){
-			layout[4][i]=new Block(i,4,"DGrey");
+		for(int i=0;i<11;i++){
+			layout[3][i]=new Block(i+1,4,"DGrey");
 		}
-		for(int i=1;i<=11;i++){
-			layout[5][i]=new Block(i,5,"Black");
+		for(int i=0;i<11;i++){
+			layout[4][i]=new Block(i+1,5,"Black");
 		}
 	}
 
